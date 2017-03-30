@@ -29,9 +29,10 @@ def allowed_file(filename):
 # jQuery is loaded to execute the request and update the
 # value of the operation
 @app.route('/')
+@app.route('/index')
 def index():
-    # return render_template('index.html')
-    return "Hello"
+    return render_template('index.html')
+    # return "Hello"
 
 # Route that will process the file upload
 @app.route('/upload', methods=['POST'])
