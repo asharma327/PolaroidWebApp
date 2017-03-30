@@ -30,8 +30,8 @@ def allowed_file(filename):
 # value of the operation
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    # return render_template('index.html')
+    return "Hello"
 
 # Route that will process the file upload
 @app.route('/upload', methods=['POST'])
