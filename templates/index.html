@@ -3,6 +3,7 @@
   <head>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
           rel="stylesheet">
+    <title>Convert to Polaroid to Print by Adhaar Sharma</title>
   </head>
   <body>
     <div class="container">
@@ -10,15 +11,35 @@
         <h3 class="text-muted">Convert Image to Polaroid</h3>
       </div>
       <hr/>
-
       <div>
-      <form action="upload" method="post" enctype="multipart/form-data">
+          <img src="../static/funky.png" height="75" width="75" align="left" hspace="5"/>
+          <img src="../static/blue.png" height="75" width="75" align="left" hspace="25"/>
+          <img src="../static/black.png" height="75" width="75" align="left" hspace="30"/>
+          <img src="../static/yellow.png" height="75" width="75" align="left" hspace="25"/>
+          <img src="../static/sepia.png" height="75" width="75" hspace ="0"/>
+      </div>
+      <div>
+        <form action="upload" method="post" enctype="multipart/form-data">
+          <label class="radio-inline"><input type="radio" name="filters" id="1" value="funky_image">Acid Wash</label>
+          <label class="radio-inline"><input type="radio" name="filters" id="2" value="vintage_blue">Vintage Blue</label>
+          <label class="radio-inline"><input type="radio" name="filters" id="3" value="black_and_white">Black and White</label>
+          <label class="radio-inline"><input type="radio" name="filters" id="4" value="vintage_yellow">Vintage Yellow</label>
+          <label class="radio-inline"><input type="radio" name="filters" id="5" value="sepia">Sepia</label>
+      </div>
+        <br/>
+      <div class="form-group">
+      <label>Caption:</label>
+      <textarea class="form-control" rows="1" id="caption" name="caption" style="width:200px"></textarea>
+        <p class="text-muted">20 characters maximum</p>
+      </div>
+      <div>
+          <br/>
         <input type="file" name="file">
           <br/>
           <br/>
         <input type="submit" value="Convert to Polaroid">
-      </form>
       </div>
+      </form>
         <div>
             <h4 class="text-muted"><em>* Polaroid Image will Download to Desktop</em></h4>
         </div>

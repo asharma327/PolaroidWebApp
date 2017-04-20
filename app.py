@@ -3,7 +3,6 @@ import poloroid_convert
 import numpy as np
 import cv2
 import math
-import os
 # We'll render HTML templates and access data sent by POST
 # using the request object from flask. Redirect and url_for
 # will be used to redirect the user once the upload is done
@@ -18,7 +17,7 @@ app = Flask(__name__)
 # This is the path to the upload directory
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 # These are the extension that we are accepting to be uploaded
-app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'tif', 'jpeg'])
+app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'tif', 'jpeg', 'JPG', 'PNG'])
 
 # For a given file, return whether it's an allowed type or not
 def allowed_file(filename):
@@ -31,8 +30,10 @@ def allowed_file(filename):
 @app.route('/')
 @app.route('/index')
 def index():
+    if request.method == 'POST':
+        selectedValue = request.form['option']
+        return selectedValue
     return render_template('index.html')
-    # return "Hello"
 
 # Route that will process the file upload
 @app.route('/upload', methods=['POST'])
@@ -48,18 +49,20 @@ def upload():
         # Move the file form the temporal folder to
         # the upload folder we setup if it doesn't exist yet
         files_in_upload_folder = os.listdir(upload_path)
-
         if filename not in files_in_upload_folder:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         # Redirect the user to the uploaded_file route, which
         # will basically show on the browser the uploaded file
-        polaroid_file_name, polaroid_image = poloroid_convert.main(filename)
+        image = poloroid_convert.imageConvert(filename)
+        image.filter_type = request.form['filters']
+        image.write_text = request.form['caption']
+        polaroid_file_name, polaroid_image = image.main()
         if str(polaroid_image) != polaroid_image:
             cv2.imwrite(os.path.join(os.path.expanduser('~'), 'Desktop/' + polaroid_file_name), polaroid_image)
             cv2.imwrite(os.path.join(upload_path, polaroid_file_name), polaroid_image)
             return redirect(url_for('uploaded_file', filename=polaroid_file_name))
         else:
-            return polaroid_file_name, polaroid_image
+            return render_template('error_message.html')
 
 # This route is expecting a parameter containing the name
 # of a file. Then it will locate that file on the upload
